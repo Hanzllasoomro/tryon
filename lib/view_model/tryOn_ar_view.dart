@@ -41,7 +41,7 @@ class _TryOnArViewState extends State<TryOnArView> {
         child: Icon(Icons.filter),
         onPressed: () {
           // Example to load a filter file from assets
-          _controller.switchEffect('assets/filters/sunglasses.effect');
+          _controller.switchEffect('assets/filters/burning_effect.deepar');
         },
       ),
     );
