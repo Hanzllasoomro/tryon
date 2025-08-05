@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "101100602179",
+    "project_id": "spot-holder",
+    "storage_bucket": "spot-holder.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:101100602179:android:34e06f02e235a7c7dca5f6",
+        "android_client_info": {
+          "package_name": "com.example.tryon"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAE3TYpvaGcsniFZKx7SVgHFyrfMA22G0w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
