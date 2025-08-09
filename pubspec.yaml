@@ -44,7 +44,7 @@ dependencies:
   cloud_firestore: ^6.0.0
   firebase_auth: ^6.0.0
   firebase_storage: ^13.0.0
-  deepar_flutter: ^0.0.5
+  deepar_flutter_plus: ^0.0.5
 
 dev_dependencies:
   flutter_test:

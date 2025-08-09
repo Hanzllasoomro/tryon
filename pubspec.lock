@@ -121,14 +121,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.8"
-  deepar_flutter:
+  deepar_flutter_plus:
     dependency: "direct main"
     description:
-      name: deepar_flutter
-      sha256: "4d136ba26f6a09c56fc6a2a18ce53a883f4f912cf43de34326c822f7f6692b33"
+      name: deepar_flutter_plus
+      sha256: "4f2b916ead045c66bff40daa43cb281e572e4018c640156b5c9ff9e1ae70ac27"
       url: "https://pub.dev"
     source: hosted
-    version: "0.0.5"
+    version: "0.0.9"
   fake_async:
     dependency: transitive
     description:
