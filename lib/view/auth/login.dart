@@ -76,7 +76,7 @@ class _LoginState extends State<Login> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Loging',
+                      'Login',
                       style: GoogleFonts.poppins(
                         fontWeight: FontWeight.w600,
                         fontSize: 26,
@@ -209,36 +209,6 @@ class _LoginState extends State<Login> {
                     SizedBox(height: 5),
 
                     SizedBox(height: 20),
-                    //               Container(
-                    //                 height:
-                    //                     MediaQuery.of(context).size.height *
-                    //                     0.08, // 8% of screen height
-                    //                 width:
-                    //                     MediaQuery.of(context).size.width *
-                    //                     0.9, // 90% of screen width
-                    //                 decoration: BoxDecoration(
-                    //                   color: Color(0xff53B175),
-                    //                   borderRadius: BorderRadius.circular(19),
-                    //                 ),
-                    //                 child: TextButton(
-                    //                   onPressed: () {
-                    //                     if (_formkey.currentState!.validate()) {
-                    //                    authController.login(
-                    //   email: emailcontroller.text.trim(),
-                    //   password: passwordcontroller.text.trim(),
-                    // );
-                    //                     }
-                    //                   },
-                    //                   child: Text(
-                    //                     'Log In',
-                    //                     style: GoogleFonts.poppins(
-                    //                       fontWeight: FontWeight.w600,
-                    //                       fontSize: 18,
-                    //                       color: Color(0xffFFF9FF),
-                    //                     ),
-                    //                   ),
-                    //                 ),
-                    //               ),
                     Obx(
                       () => PrimaryButton(
                         text: "Log In",
@@ -275,7 +245,7 @@ class _LoginState extends State<Login> {
                           child: Text(
                             "Sign Up",
                             style: GoogleFonts.poppins(
-                              color: Color(0xff53B175),
+                              color: AppColors.primaryColor,
                               fontSize: 14,
                               fontWeight: FontWeight.w600,
                             ),

@@ -2,27 +2,23 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart' show Get;
 import 'package:google_fonts/google_fonts.dart';
+import 'package:tryon/component/HomeScreenShimmer.dart';
+import 'package:tryon/constant/app_colors.dart';
 import 'package:tryon/model/products.dart';
 import 'package:tryon/view/product/product_details.dart';
+import 'package:tryon/view_model/CartController.dart';
 import 'package:tryon/view_model/ProductController.dart';
 
-class Mein2 extends StatefulWidget {
-  const Mein2({super.key});
+class Home extends StatefulWidget {
+  const Home({super.key});
 
   @override
-  State<Mein2> createState() => _Mein2State();
+  State<Home> createState() => _HomeState();
 }
 
-class _Mein2State extends State<Mein2> {
+class _HomeState extends State<Home> {
   void addToCart(String name, double price, String imagePath) {
     setState(() {
-      // Check if the item is already in the cart
-      // int index = cart.indexWhere((item) => item.name == name);
-      // if (index != -1) {
-      //   cart[index].quantity++; // Increase quantity if already in cart
-      // } else {
-      //   cart.add(CartItem1(name: name, price: price, proImage: imagePath));
-      // }
     });
   }
 
@@ -38,13 +34,14 @@ class _Mein2State extends State<Mein2> {
   }
 
   final ProductController productController = Get.put(ProductController());
+final CartController cartController = Get.put(CartController());
 
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width; // Get screen width
     return Obx(() {
       if (productController.isLoading.value) {
-        return const Center(child: CircularProgressIndicator());
+        return HomeScreenShimmer();
       }
 
       if (productController.products.isEmpty) {
@@ -103,55 +100,9 @@ class _Mein2State extends State<Mein2> {
                   ),
                 ), // Make the banner width dynamic
                 const SizedBox(height: 10),
-                // Row(
-                //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                //   children: [
-                //     Text(
-                //       "Exclusive Offer",
-                //       style: GoogleFonts.poppins(
-                //         fontSize: 24,
-                //         fontWeight: FontWeight.w600,
-                //       ),
-                //     ),
-                //     TextButton(
-                //       onPressed: () {},
-                //       child: const Text(
-                //         "See all",
-                //         style: TextStyle(
-                //           color: Color(0xff53B175),
-                //           decoration: TextDecoration.underline,
-                //           decorationColor: Color(0xff53B175),
-                //         ),
-                //       ),
-                //     ),
-                //   ],
-                // ),
+             
                 const SizedBox(height: 10),
-                // SingleChildScrollView(
-                //   scrollDirection: Axis.horizontal,
-                //   child: Row(
-                //     mainAxisAlignment:
-                //         MainAxisAlignment
-                //             .start, // Align items to start to avoid right space
-                //     children: [
-                //       products(
-                //         image1: 'assets/apple.png',
-                //         name: "Red Apple",
-                //         price: '\$4.49',
-                //         price1: 4.49,
-                //         kg: '1kg ,Priceg',
-                //       ),
-                //       SizedBox(width: 20),
-                //       products(
-                //         image1: 'assets/bana.png',
-                //         name: "Bananas",
-                //         price: '\$4.49',
-                //         price1: 4.49,
-                //         kg: '7pcs ,Priceg',
-                //       ),
-                //     ],
-                //   ),
-                // ),
+               
                 const SizedBox(height: 10),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -168,7 +119,7 @@ class _Mein2State extends State<Mein2> {
                       child: const Text(
                         "See all",
                         style: TextStyle(
-                          color: Color(0xff53B175),
+                          color: AppColors.primaryColor,
                           decoration: TextDecoration.underline,
                           decorationColor: Color(0xff53B175),
                         ),
@@ -229,7 +180,7 @@ class _Mein2State extends State<Mein2> {
                       child: const Text(
                         "See all",
                         style: TextStyle(
-                          color: Color(0xff53B175),
+                          color: AppColors.primaryColor,
                           decoration: TextDecoration.underline,
                           decorationColor: Color(0xff53B175),
                         ),
@@ -307,28 +258,7 @@ class _Mein2State extends State<Mein2> {
                   ),
                 ),
                 const SizedBox(height: 20),
-                // const SingleChildScrollView(
-                //   scrollDirection: Axis.horizontal,
-                //   child: Row(
-                //     children: [
-                //       products(
-                //         image1: 'assets/chik.png',
-                //         name: 'Chicken',
-                //         price: '\$4.49',
-                //         price1: 4.49,
-                //         kg: '1Kg,Priceg',
-                //       ),
-                //       SizedBox(width: 20),
-                //       products(
-                //         image1: 'assets/meat.png',
-                //         name: 'Meat',
-                //         price: '\$4.49',
-                //         price1: 4.49,
-                //         kg: '1Kg,Priceg',
-                //       ),
-                //     ],
-                //   ),
-                // ),
+            
               ],
             ),
           ),
@@ -337,69 +267,3 @@ class _Mein2State extends State<Mein2> {
     });
   }
 }
-
-// import 'package:get/get.dart';
-// class Mein2 extends StatelessWidget {
-//   Mein2({super.key});
-
-//   final ProductController productController = Get.put(ProductController());
-
-//   @override
-//   Widget build(BuildContext context) {
-//     double screenWidth = MediaQuery.of(context).size.width;
-
-//     return Scaffold(
-//       backgroundColor: Colors.white,
-//       body: Obx(() {
-//         if (productController.isLoading.value) {
-//           return const Center(child: CircularProgressIndicator());
-//         }
-
-//         if (productController.products.isEmpty) {
-//           return const Center(child: Text("No products available"));
-//         }
-
-//         return SingleChildScrollView(
-//           child: Padding(
-//             padding: const EdgeInsets.symmetric(horizontal: 20),
-//             child: Column(
-//               crossAxisAlignment: CrossAxisAlignment.start,
-//               children: [
-//                 const SizedBox(height: 40),
-//                 // 🔹 Example: show fetched products in a horizontal scroll
-//                 Row(
-//                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//                   children: [
-//                     Text(
-//                       "Exclusive Offer",
-//                       style: GoogleFonts.poppins(
-//                           fontSize: 24, fontWeight: FontWeight.w600),
-//                     ),
-//                   ],
-//                 ),
-//                 const SizedBox(height: 10),
-//                 SingleChildScrollView(
-//                   scrollDirection: Axis.horizontal,
-//                   child: Row(
-//                     children: productController.products.map((product) {
-//                       return Padding(
-//                         padding: const EdgeInsets.only(right: 20),
-//                         child: products(
-//                           image1: product.imageUrl,
-//                           name: product.name,
-//                           price: "\$${product.price}",
-//                           price1: product.price,
-//                           kg: '',
-//                         ),
-//                       );
-//                     }).toList(),
-//                   ),
-//                 ),
-//               ],
-//             ),
-//           ),
-//         );
-//       }),
-//     );
-//   }
-// }

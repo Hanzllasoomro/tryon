@@ -1,6 +1,8 @@
 import 'package:get/get.dart';
+import 'package:tryon/constant/app_images.dart';
 import 'package:tryon/model/UserModel.dart';
 import 'package:tryon/repository/auth_repo/auth_repository.dart';
+import 'package:tryon/view/navigation/navigation.dart';
 import 'package:tryon/view_model/UserController.dart';
 
 class AuthController extends GetxController {
@@ -48,8 +50,8 @@ class AuthController extends GetxController {
         // fetch user info from Firestore later if needed
         final user = UserModel(uid: uid, name: "", email: email);
         userController.setUser(user);
-
-        Get.snackbar("Success", "Logged in successfully");
+Get.to(Navigation());
+        // Get.snackbar("Success", "Logged in successfully");
       }
     } catch (e) {
       Get.snackbar("Error", e.toString());

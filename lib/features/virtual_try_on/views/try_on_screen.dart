@@ -1,25 +1,39 @@
 
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:tryon/component/loading_dialogue.dart';
+import 'package:tryon/constant/app_colors.dart';
 import 'package:tryon/repository/product_repo/product_repo.dart';
 import '../../../view_model/try_on_controller.dart';
 
 class TryOnScreen extends StatelessWidget {
-  TryOnScreen({Key? key}) : super(key: key);
+  final String garmentImage;
+  TryOnScreen({Key? key, required this.garmentImage }) : super(key: key);
   final TryOnController _controller = Get.put(
     TryOnController(iProductRepository: Get.find<IProductRepository>()),
   );
 
   @override
   Widget build(BuildContext context) {
+
+
     return Scaffold(
+      backgroundColor: AppColors.primaryColor,
       appBar: AppBar(
-        title: const Text('Virtual Try-On'),
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        title: const Text(
+          'Virtual Try-On',
+          style: TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+            fontSize: 20,
+          ),
+        ),
+        centerTitle: true,
         actions: [
           IconButton(
-            icon: const Icon(Icons.refresh),
+            icon: const Icon(Icons.refresh, color: Colors.white),
             onPressed: _controller.resetAll,
             tooltip: 'Reset',
           ),
@@ -27,180 +41,283 @@ class TryOnScreen extends StatelessWidget {
       ),
       body: Stack(
         children: [
-          Obx(() {
-            return Padding(
-              padding: const EdgeInsets.all(16.0),
+          // Background elements
+          Positioned(
+            top: -50,
+            right: -30,
+            child: Container(
+              width: 150,
+              height: 150,
+              decoration: BoxDecoration(
+                color: AppColors.primaryColor.withOpacity(0.1),
+                shape: BoxShape.circle,
+              ),
+            ),
+          ),
+          
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            child: SingleChildScrollView(
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // Image Selection
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      _buildImageSelectionCard(
-                        title: 'Actor Photo',
-                        image: _controller.actorImage.value,
-                        isUploading: _controller.isUploadingActor.value,
-                        onPressed: _controller.pickActorImage,
+                  const SizedBox(height: 16),
+                  
+                  // Header section
+                  Container(
+                    width: double.infinity,
+                    padding: const EdgeInsets.all(20),
+                    decoration: BoxDecoration(
+                      gradient: const LinearGradient(
+                        colors: [Color(0xFFFFF3E9), Color(0xFFFFE5D3)],
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
                       ),
-                      _buildImageSelectionCard(
-                        title: 'Garment Image',
-                        image: _controller.garmentImage.value,
-                        isUploading: _controller.isUploadingGarment.value,
-                        onPressed: _controller.pickGarmentImage,
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Style Your Look Instantly',
+                          style: TextStyle(
+                            fontSize: 22,
+                            fontWeight: FontWeight.bold,
+                            color: AppColors.primaryColor,
+                          ),
+                        ),
+                        const SizedBox(height: 8),
+                        Text(
+                          'Upload your photo and see how our clothes look on you',
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: Colors.grey[700],
+                          ),
+                        ),
+                        const SizedBox(height: 16),
+                        ElevatedButton(
+                          onPressed: () {},
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: AppColors.primaryColor,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 20,
+                              vertical: 12,
+                            ),
+                          ),
+                          child: const Text(
+                            'Try It Now',
+                            style: TextStyle(
+                              fontSize: 16,
+                              color: Colors.white,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  
+                  const SizedBox(height: 24),
+                  
+                  // Image upload section
+                  Text(
+                    'Upload Your Photo',
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
+                  ),
+                  const SizedBox(height: 12),
+                  
+                  Obx(() {
+                    return GestureDetector(
+                      onTap: _controller.pickActorImage,
+                      child: Container(
+                        height: 200,
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                          color: Colors.grey[100],
+                          borderRadius: BorderRadius.circular(12),
+                          border: Border.all(
+                            color: _controller.actorImage.value != null
+                                ? AppColors.primaryColor
+                                : Colors.grey[300]!,
+                            width: 2,
+                          ),
+                        ),
+                        child: _controller.isUploadingActor.value
+                            ? const Center(child: CircularProgressIndicator())
+                            : _controller.actorImage.value != null
+                                ? ClipRRect(
+                                    borderRadius: BorderRadius.circular(10),
+                                    child: Image.file(
+                                      _controller.actorImage.value!,
+                                      fit: BoxFit.contain,
+                                    ),
+                                  )
+                                : Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Icon(
+                                        Icons.cloud_upload_outlined,
+                                        size: 48,
+                                        color: Colors.grey[400],
+                                      ),
+                                      const SizedBox(height: 12),
+                                      Text(
+                                        'Tap to upload your photo',
+                                        style: TextStyle(
+                                          color: Colors.grey[600],
+                                          fontSize: 16,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                      ),
+                    );
+                  }),
+                  
+                  const SizedBox(height: 24),
+                  
+                  // Try-On Button
+                  Obx(() {
+                    return ElevatedButton(
+                      // onPressed: _controller.canProcess && !_controller.isLoading.value
+                      //     ? ()=>_controller.processTryOn(garmentImage)
+                      //     : null,
+                      onPressed: () => _controller.processTryOn(garmentImage),
+ 
+
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor:Colors.white,
+                        disabledBackgroundColor: Colors.grey[300],
+                        minimumSize: const Size(double.infinity, 56),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                      ),
+                      child: _controller.isLoading.value
+                          ? const SizedBox(
+                              height: 24,
+                              width: 24,
+                              child: CircularProgressIndicator.adaptive(
+                                backgroundColor: AppColors.primaryColor,
+                                strokeWidth: 2,
+                              ),
+                            )
+                          : const Text(
+                              'GENERATE TRY-ON',
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black,
+                              ),
+                            ),
+                    );
+                  }),
+                  
+                  const SizedBox(height: 20),
+             
+                  Obx(() {
+  if (_controller.resultUrl.value != null) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          'Your Try-On Result',
+          style: TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
+            color:Colors.white,
+          ),
+        ),
+        const SizedBox(height: 12),
+        Container(
+          height: 300,
+          width: double.infinity,
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(12),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey.withOpacity(0.1),
+                blurRadius: 10,
+                offset: const Offset(0, 4),
+              ),
+            ],
+          ),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(12),
+            child: Image.network(
+              _controller.resultUrl.value!,
+              fit: BoxFit.contain,
+              loadingBuilder: (context, child, progress) {
+                return progress == null
+                    ? child
+                    : const Center(
+                        child: CircularProgressIndicator(),
+                      );
+              },
+              errorBuilder: (context, error, stackTrace) {
+                return Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Icon(
+                        Icons.error_outline,
+                        color: Colors.red,
+                        size: 48,
+                      ),
+                      const SizedBox(height: 12),
+                      Text(
+                        'Failed to load image',
+                        style: TextStyle(
+                          color: Colors.grey[600],
+                        ),
                       ),
                     ],
                   ),
-                  const SizedBox(height: 24),
-
-                  // Try-On Button
-                  ElevatedButton(
-                    onPressed: _controller.canProcess && !_controller.isLoading.value
-                        ? _controller.processTryOn
-                        : null,
-                    style: ElevatedButton.styleFrom(
-                      padding: const EdgeInsets.symmetric(vertical: 16),
-                      backgroundColor: Colors.deepPurple,
-                      disabledBackgroundColor: Colors.grey[400],
-                    ),
-                    child: const Text(
-                      'GENERATE TRY-ON',
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ),
-
-                  // Error message
-                  if (_controller.error.value.isNotEmpty)
-                    Padding(
-                      padding: const EdgeInsets.only(top: 16),
-                      child: Text(
-                        _controller.error.value,
-                        style: TextStyle(color: Colors.red[700], fontSize: 16),
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
-
-                  // Result
-                  if (_controller.resultUrl.value != null)
-                    Expanded(
-                      child: Padding(
-                        padding: const EdgeInsets.only(top: 20),
-                        child: Column(
-                          children: [
-                            const Text(
-                              'Try-On Result',
-                              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                            ),
-                            const SizedBox(height: 16),
-                            Expanded(
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  border: Border.all(color: Colors.grey),
-                                  borderRadius: BorderRadius.circular(8),
-                                ),
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(8),
-                                  child: Image.network(
-                                    _controller.resultUrl.value!,
-                                    fit: BoxFit.contain,
-                                    loadingBuilder: (context, child, progress) {
-                                      return progress == null
-                                          ? child
-                                          : const Center(child: CircularProgressIndicator());
-                                    },
-                                    errorBuilder: (context, error, stackTrace) {
-                                      return const Center(
-                                        child: Icon(Icons.error, color: Colors.red),
-                                      );
-                                    },
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                ],
-              ),
-            );
-          }),
-
-          // Global Loading Overlay
-          Obx(() {
-            if (_controller.isLoading.value) {
-              return Container(
-                color: Colors.black.withOpacity(0.5),
-                child: const Center(
-                  child: CircularProgressIndicator(color: Colors.white),
-                ),
-              );
-            }
-            return const SizedBox.shrink();
-          }),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildImageSelectionCard({
-    required String title,
-    required File? image,
-    required bool isUploading,
-    required VoidCallback onPressed,
-  }) {
-    return Expanded(
-      child: Card(
-        elevation: 4,
-        child: InkWell(
-          borderRadius: BorderRadius.circular(8),
-          onTap: onPressed,
-          child: Padding(
-            padding: const EdgeInsets.all(12.0),
-            child: Column(
-              children: [
-                Text(
-                  title,
-                  style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                ),
-                const SizedBox(height: 12),
-                Container(
-                  height: 120,
-                  width: 120,
-                  decoration: BoxDecoration(
-                    color: Colors.grey[200],
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: isUploading
-                      ? const Center(child: CircularProgressIndicator())
-                      : image != null
-                          ? ClipRRect(
-                              borderRadius: BorderRadius.circular(8),
-                              child: Image.file(
-                                image,
-                                fit: BoxFit.cover,
-                              ),
-                            )
-                          : const Icon(
-                              Icons.add_photo_alternate,
-                              size: 48,
-                              color: Colors.grey,
-                            ),
-                ),
-                const SizedBox(height: 8),
-                Text(
-                  image != null ? 'Tap to change' : 'Tap to select',
-                  style: TextStyle(color: Colors.grey[600], fontSize: 12),
-                ),
-              ],
+                );
+              },
             ),
           ),
         ),
+      ],
+    );
+  } else {
+    return const SizedBox.shrink(); // empty if no result
+  }
+}),
+
+                  const SizedBox(height: 30),
+                  
+             
+                  
+                  const SizedBox(height: 40),
+                ],
+              ),
+            ),
+          ),
+          Obx(() {
+  if (_controller.isLoading.value) {
+    return TryOnLoadingDialog(
+      onCancel: () {
+        _controller.isLoading.value=false;
+              _controller.cancelProcess();
+
+        Navigator.pop(context);
+      },
+      statusMessage: _controller.loadingStatus,
+    );
+  }
+  return const SizedBox.shrink();
+})  ],
       ),
     );
+
   }
 }

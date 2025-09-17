@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:tryon/constant/app_colors.dart';
 
 class PrimaryButton extends StatelessWidget {
   final String text;
@@ -23,7 +24,7 @@ class PrimaryButton extends StatelessWidget {
       height: MediaQuery.of(context).size.height * heightFactor,
       width: MediaQuery.of(context).size.width * widthFactor,
       decoration: BoxDecoration(
-        color: const Color(0xff53B175),
+        color: AppColors.primaryColor,
         borderRadius: BorderRadius.circular(19),
       ),
       child: TextButton(
@@ -32,6 +33,7 @@ class PrimaryButton extends StatelessWidget {
             isLoading
                 ? const CircularProgressIndicator.adaptive(
                   backgroundColor: Colors.white,
+                  
                 )
                 : Text(
                   text,

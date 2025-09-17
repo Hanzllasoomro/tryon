@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'package:http/http.dart' as http;
 import 'package:tryon/features/virtual_try_on/models/tryOn_status_response.dart';
 import '../models/try_on_response.dart';
@@ -46,6 +47,7 @@ Future<TryOnStatusResponse> getTryOnResult(String id) async {
   );
 
   if (response.statusCode == 200) {
+    log(response.body);
     return TryOnStatusResponse.fromJson(jsonDecode(response.body));
   } else {
     throw Exception("Failed to fetch try-on result");

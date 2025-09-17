@@ -1,5 +1,6 @@
 import 'dart:developer';
 import 'dart:io';
+import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
@@ -12,6 +13,8 @@ class TryOnController extends GetxController {
   final TryOnRepository _repository = TryOnRepository();
   final IProductRepository _iProductRepository;
   final IAuthRepository _authRepo = Get.find<IAuthRepository>();
+var loadingStatus = 'Uploading image to database...'.obs;
+  final CancelToken _cancelToken = CancelToken();
 
   // Observables
   final Rx<File?> actorImage = Rx<File?>(null);
@@ -47,7 +50,13 @@ class TryOnController extends GetxController {
       error.value = 'Failed to pick image: ${e.toString()}';
     }
   }
-
+  void cancelProcess() {
+    if (!_cancelToken.isCancelled) {
+      _cancelToken.cancel('User cancelled the operation');
+    }
+    isLoading.value = false;
+    loadingStatus.value = '';
+  }
   Future<void> pickGarmentImage() async {
     try {
       final pickedFile = await ImagePicker().pickImage(
@@ -66,32 +75,27 @@ class TryOnController extends GetxController {
     }
   }
 
-  Future<void> processTryOn() async {
-    if (!canProcess) return;
+  Future<void> processTryOn(String garmentImage) async {
+  
+    // if (!canProcess) return;
 
     isLoading.value = true;
     error.value = '';
-
+      //  if (_cancelToken.isCancelled) return;
     try {
+       loadingStatus = 'Uploading image to database...'.obs;
+
       final uid = DateTime.now().millisecondsSinceEpoch.toString();
       final actorBytes = actorImage.value!.readAsBytesSync();
-      final garmentBytes = garmentImage.value!.readAsBytesSync();
-      await _authRepo.signIn(email: "navi@gmail.com", password: "123456");
+      await _authRepo.signIn(email: "kk123@gmail.com", password: "111111");
       final actorUrl = await _iProductRepository.uploadImageToStorage(
         imageBytes: actorBytes,
         path: 'tryon/actors/$uid.jpg',
       );
-
-      final garmentUrl = await _iProductRepository.uploadImageToStorage(
-        imageBytes: garmentBytes,
-        path: 'tryon/garments/$uid.jpg',
-      );
-      log("garments $garmentUrl");
-
-      log("actor $actorUrl");
+loadingStatus.value = 'Processing your image...';
       final tryOnResponse = await _repository.tryOnShirtFromUrl(
         actorImageUrl: actorUrl,
-        garmentImageUrl: garmentUrl,
+        garmentImageUrl: garmentImage,
       );
 
       if (tryOnResponse.error != null) {
@@ -100,9 +104,12 @@ class TryOnController extends GetxController {
       }
 
       final String requestId = tryOnResponse.id!;
-
       // Poll for completion
+        loadingStatus.value = 'Generating try-on result...';
+  // Generation code here
+  
       while (true) {
+        log("in while");
         await Future.delayed(const Duration(seconds: 3));
         final statusResponse = await _repository.getTryOnResult(requestId);
 
@@ -121,7 +128,6 @@ class TryOnController extends GetxController {
         }
       }
     } catch (e) {
-      log(e.toString());
       error.value = 'Processing failed: ${e.toString()}';
     } finally {
       isLoading.value = false;

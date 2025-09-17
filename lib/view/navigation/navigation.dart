@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:tryon/constant/app_colors.dart';
+import 'package:tryon/view/cart/CartScreen.dart';
 import 'package:tryon/view/navigation/home.dart';
 import 'package:tryon/view/product/UploadProductScreen.dart';
 
@@ -29,7 +31,7 @@ class _NavigationState extends State<Navigation> {
         physics: NeverScrollableScrollPhysics(),
 
         // children: [Mein2(), Explore(), Cart(), Account()],
-        children: [Mein2(), SizedBox(), SizedBox(), UploadProductScreen()],
+        children: [Home(), CartScreen(), CartScreen(), UploadProductScreen()],
       ),
       bottomNavigationBar: BottomNavigationBar(
         items: const [
@@ -57,7 +59,7 @@ class _NavigationState extends State<Navigation> {
           ),
         ],
         currentIndex: selectedindex,
-        selectedItemColor: Color(0xff53B175),
+        selectedItemColor: AppColors.primaryColor,
         unselectedItemColor: Colors.grey,
         onTap: ontap,
       ),

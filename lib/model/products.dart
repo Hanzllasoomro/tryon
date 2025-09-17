@@ -1,105 +1,9 @@
-// import 'package:flutter/material.dart';
-// import 'package:google_fonts/google_fonts.dart';
 
-// class products extends StatefulWidget {
-//   final String image1;
-//   final String name;
-//   final String price;
-//   final double price1;
-//   final String kg;
 
-//   const products({
-//     super.key,
-//     required this.image1,
-//     required this.name,
-//     required this.price,
-//     required this.price1,
-//     required this.kg,
-//   });
-
-//   @override
-//   State<products> createState() => _ProductState();
-// }
-
-// class _ProductState extends State<products> {
-
-//   void addToCart(String name, double price, String imagePath) {
-
-//   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Container(
-//       width: 174,
-//       height: 248,
-//       decoration: BoxDecoration(
-//         color: Colors.white,
-//         borderRadius: BorderRadius.circular(18),
-//         boxShadow: [
-//           BoxShadow(color: Colors.blueGrey.withOpacity(0.3), spreadRadius: 0.4),
-//         ],
-//         border: Border.all(color: Colors.blueGrey, width: 0.7),
-//       ),
-//       child: Column(
-//         children: [
-//           Expanded(child: Image.network(widget.image1)),
-
-//           // Expanded(child: Image.asset(widget.image1,)),
-//           Expanded(
-//             child: Padding(
-//               padding: const EdgeInsets.symmetric(horizontal: 15),
-//               child: Column(
-//                 mainAxisAlignment: MainAxisAlignment.start,
-//                 crossAxisAlignment: CrossAxisAlignment.start,
-//                 children: [
-//                   Text(
-//                     widget.name,
-//                     style: GoogleFonts.poppins(
-//                       fontSize: 16,
-//                       fontWeight: FontWeight.w600,
-//                       color: Colors.black,
-//                     ),
-//                   ),
-//                   Text(
-//                     widget.kg,
-//                     style: GoogleFonts.poppins(
-//                       fontSize: 14,
-//                       color: const Color(0xff7C7C7C),
-//                     ),
-//                   ),
-//                   Row(
-//                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//                     children: [
-//                       Text(
-//                         widget.price,
-//                         style: GoogleFonts.poppins(
-//                           fontWeight: FontWeight.w600,
-//                           fontSize: 16,
-//                           color: Colors.black,
-//                         ),
-//                       ),
-//                       FloatingActionButton(
-//                         onPressed: () {
-//                           // Add to local and database cart
-//                           addToCart(widget.name, widget.price1, widget.image1);
-//                         },
-//                         backgroundColor: const Color(0xff53B175),
-//                         child: const Icon(Icons.add, color: Colors.white),
-//                       ),
-//                     ],
-//                   ),
-//                 ],
-//               ),
-//             ),
-//           ),
-//         ],
-//       ),
-//     );
-//   }
-// }
-
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:tryon/constant/app_colors.dart';
 
 class ProductCard extends StatefulWidget {
@@ -145,16 +49,36 @@ class _ProductCardState extends State<ProductCard> {
       ),
       child: Stack(
         children: [
-          // Product image as background
           ClipRRect(
-            borderRadius: BorderRadius.circular(18),
-            child: Image.network(
-              widget.imageUrl,
-              width: double.infinity,
-              height: double.infinity,
-              fit: BoxFit.cover,
-            ),
-          ),
+  borderRadius: BorderRadius.circular(18),
+  child: CachedNetworkImage(
+    imageUrl: widget.imageUrl,
+    width: double.infinity,
+    height: double.infinity,
+    fit: BoxFit.cover,
+
+    // Shimmer effect while loading
+    placeholder: (context, url) => Shimmer.fromColors(
+      baseColor: Colors.grey.shade300,
+      highlightColor: Colors.grey.shade100,
+      child: Container(
+        width: double.infinity,
+        height: double.infinity,
+        color: Colors.white,
+      ),
+    ),
+
+    // Error widget if image fails
+    errorWidget: (context, url, error) => Container(
+      color: Colors.grey[200],
+      child: const Icon(
+        Icons.broken_image,
+        color: Colors.grey,
+        size: 40,
+      ),
+    ),
+  ),
+),
 
           // Gradient overlay for better text visibility
           Container(
@@ -189,23 +113,15 @@ class _ProductCardState extends State<ProductCard> {
                     fontWeight: FontWeight.w600,
                     color: Colors.white,
                   ),
-                  maxLines: 1,
+                  maxLines: 2,
                   overflow: TextOverflow.ellipsis,
-                ),
-                const SizedBox(height: 4),
-                Text(
-                  widget.weight,
-                  style: GoogleFonts.poppins(
-                    fontSize: 14,
-                    color: Colors.white.withOpacity(0.9),
-                  ),
                 ),
                 const SizedBox(height: 8),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      widget.price,
+                      "Pkr ${widget.price}",
                       style: GoogleFonts.poppins(
                         fontWeight: FontWeight.w600,
                         fontSize: 16,

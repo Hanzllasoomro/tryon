@@ -4,6 +4,8 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:tryon/constant/app_colors.dart';
+import 'package:tryon/features/virtual_try_on/views/try_on_screen.dart';
+import 'package:tryon/view_model/CartController.dart';
 
 class ProductDetailsScreen extends StatefulWidget {
   final String productName;
@@ -25,6 +27,8 @@ class ProductDetailsScreen extends StatefulWidget {
 }
 
 class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
+  final CartController cartController = Get.put(CartController());
+
   final selectedImageIndex = 0.obs;
 
   final cartItemCount = 0.obs;
@@ -117,11 +121,13 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
   Widget _buildTopBar(Size size, context) {
     return Positioned(
       top: size.height * 0.05,
-      left: size.width * 0.015,
+      left: size.width * 0.04,
       right: size.width * 0.04,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [_iconButton(Icons.arrow_back_ios, () => Get.back())],
+      child: Center(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [_iconButton(Icons.arrow_back_ios, () => Get.back())],
+        ),
       ),
     );
   }
@@ -227,7 +233,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                             SizedBox(height: size.height * 0.01),
                             SizedBox(height: size.height * 0.01),
                             _buildDescriptionSection(size),
-                            SizedBox(height: size.height * 0.015),
+                            // SizedBox(height: size.height * 0.015),
                             SizedBox(height: size.height * 0.02),
                             _buildAddToCartButton(size, context),
                             _buildProductSection(size, size.width * 0.06),
@@ -270,16 +276,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
     );
   }
 
-  // Widget _buildPriceSection(Size size) {
-  //   return Text(
-  //     "Pkr ${widget.productPrice.toString()}",
-  //     style: TextStyle(
-  //       fontSize: size.width * 0.07,
-  //       fontWeight: FontWeight.bold,
-  //       color: AppColors.black,
-  //     ),
-  //   );
-  // }
+ 
 
   Widget _buildPriceSection(Size size) {
     return Text(
@@ -306,7 +303,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
             color: Colors.grey[700], // softer grey for readability
             height: 1.4, // line height for better spacing
           ),
-          maxLines: isDescriptionExpanded.value ? null : 3,
+          maxLines: isDescriptionExpanded.value ? null : 5,
           overflow: TextOverflow.fade,
         ),
         SizedBox(height: size.height * 0.01),
@@ -348,7 +345,17 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
             width: size.width * 0.4,
             height: size.height * 0.064,
             child: ElevatedButton.icon(
-              onPressed: () {},
+              onPressed: () {
+          cartController.addToCart(
+     widget.productName,
+      widget.productPrice,
+      widget.productImage,
+    ); Get.snackbar(
+      "Added to Cart",
+      "${widget.productName} has been added!",
+      snackPosition: SnackPosition.BOTTOM,
+    );
+              },
               icon: Icon(Icons.shopping_cart, color: Colors.white),
               label: Text(
                 "Add to cart",
@@ -368,30 +375,46 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
               ),
             ),
           ),
-          SizedBox(
-            width: size.width * 0.4,
-            height: size.height * 0.064,
-            child: ElevatedButton.icon(
-              onPressed: () {},
-              icon: Icon(Icons.checkroom, color: Colors.white),
-              label: Text(
-                "Try it Now",
-                style: GoogleFonts.poppins(
-                  fontSize: size.width * 0.042,
-                  fontWeight: FontWeight.w600,
-                  color: Colors.white,
-                  letterSpacing: 1.2, // makes it look more premium
-                ),
-              ),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: AppColors.primaryColor,
-                padding: EdgeInsets.symmetric(vertical: size.height * 0.02),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
-                ),
-              ),
+
+SizedBox(
+  width: size.width * 0.4,
+  height: size.height * 0.064,
+  child: InkWell(
+    borderRadius: BorderRadius.circular(12), // ripple matches the shape
+    onTap: () {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => TryOnScreen(garmentImage: widget.productImage),
+        ),
+      );
+    },
+    child: Container(
+      decoration: BoxDecoration(
+        color: AppColors.primaryColor,
+        borderRadius: BorderRadius.circular(12),
+      ),
+      padding: EdgeInsets.symmetric(vertical: size.height * 0.02),
+      alignment: Alignment.center,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          Image.asset("assets/ai.png",color: Colors.white,height: 30,),
+          Text(
+            "Try it Now",
+            style: GoogleFonts.poppins(
+              fontSize: size.width * 0.042,
+              fontWeight: FontWeight.w600,
+              color: Colors.white,
+              letterSpacing: 1.2, // premium effect
             ),
           ),
+        ],
+      ),
+    ),
+  ),
+)
+
         ],
       ),
     );

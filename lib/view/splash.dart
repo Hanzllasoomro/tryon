@@ -1,7 +1,9 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:tryon/constant/app_colors.dart';
 import 'package:tryon/constant/app_images.dart';
 import 'package:tryon/view/auth/login.dart';
+import 'package:tryon/view/navigation/navigation.dart';
 
 class Splash1 extends StatefulWidget {
   const Splash1({super.key});
@@ -39,10 +41,24 @@ class _Splash1State extends State<Splash1> with SingleTickerProviderStateMixin {
     // Start the animation
     _controller.forward();
 
-    Future.delayed(const Duration(seconds: 3), () {
-      Navigator.push(
-          context, MaterialPageRoute(builder: (context) => Login()));
-    });
+  // Delay for splash screen
+  Future.delayed(const Duration(seconds: 3), () {
+    final user = FirebaseAuth.instance.currentUser;
+
+    if (user != null) {
+      // User is logged in -> navigate to Dashboard
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => Navigation()),
+      );
+    } else {
+      // User not logged in -> navigate to Login
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => Login()),
+      );
+    }
+  });
   }
 
   @override
@@ -125,7 +141,7 @@ class _Splash1State extends State<Splash1> with SingleTickerProviderStateMixin {
                               ],
                             ).createShader(bounds),
                         child: const Text(
-                          "APP NAME", // Replace with your app name
+                          "TryNBuy", // Replace with your app name
                           style: TextStyle(
                             fontSize: 32,
                             fontWeight: FontWeight.bold,
@@ -138,7 +154,7 @@ class _Splash1State extends State<Splash1> with SingleTickerProviderStateMixin {
 
                       // Tagline
                       Text(
-                        "Your amazing tagline here", // Replace with your tagline
+                        "Bringing the fitting room to your phone", // Replace with your tagline
                         style: TextStyle(
                           fontSize: 16,
                           color: AppColors.grey,
