@@ -7,15 +7,7 @@ class FirebaseProductRepoImpl extends IProductRepository {
   static final Reference _storageReference = FirebaseStorage.instance.ref();
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-// @override
-// Future<String> uploadImageToStorage({
-//   required Uint8List imageBytes,
-//   required String path,
-// }) async {
-//   final ref = _storageReference.child(path);
-//   await ref.putData(imageBytes);
-//   return await ref.getDownloadURL();
-// }
+
 
 @override
 Future<String> uploadImageToStorage({

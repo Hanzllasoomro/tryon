@@ -1,14 +1,16 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
+import 'package:tryon/features/virtual_try_on/views/try_on_screen.dart';
 import 'package:tryon/firebase_options.dart';
 import 'package:tryon/repository/auth_repo/auth_repository.dart';
 import 'package:tryon/repository/auth_repo/firebase_auth_repository.dart';
 import 'package:tryon/repository/product_repo/firebase_product_repo_impl.dart';
 import 'package:tryon/repository/product_repo/product_repo.dart';
-import 'package:tryon/view_model/tryOn_ar_view.dart';
-import 'features/virtual_try_on/views/try_on_screen.dart';
+import 'package:tryon/view/OpenWebAppScreen.dart';
+import 'package:tryon/view/navigation/navigation.dart';
+import 'package:tryon/view/splash.dart';
+import 'package:tryon/view/product/UploadProductScreen.dart';
 // import 'package:tryon/firebase_options.dart';
 
 Future<void> main() async {
@@ -35,7 +37,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home:  TryOnArView(), // Directly load your feature screen
+      home:  Navigation(), // Directly load your feature screen
     );
   
   }

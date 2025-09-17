@@ -28,8 +28,10 @@ class FirebaseAuthRepository implements IAuthRepository {
     required String password,
   }) async {
     try {
-      UserCredential userCredential = await _auth
-          .signInWithEmailAndPassword(email: email, password: password);
+      UserCredential userCredential = await _auth.signInWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
       return userCredential.user?.uid;
     } on FirebaseAuthException catch (e) {
       throw Exception(e.message);

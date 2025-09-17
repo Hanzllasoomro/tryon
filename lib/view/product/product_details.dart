@@ -1,0 +1,410 @@
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:shimmer/shimmer.dart';
+import 'package:tryon/constant/app_colors.dart';
+
+class ProductDetailsScreen extends StatefulWidget {
+  final String productName;
+  final double productPrice;
+  final String productDescription;
+  final String productImage;
+  final double productRating;
+  ProductDetailsScreen({
+    super.key,
+    required this.productName,
+    required this.productPrice,
+    required this.productDescription,
+    required this.productImage,
+    required this.productRating,
+  });
+
+  @override
+  State<ProductDetailsScreen> createState() => _ProductDetailsScreenState();
+}
+
+class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
+  final selectedImageIndex = 0.obs;
+
+  final cartItemCount = 0.obs;
+
+  final isAnimating = false.obs;
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+    return Scaffold(
+      backgroundColor: Colors.white,
+      body: SingleChildScrollView(
+        child: Column(children: [_buildProductView(size, context)]),
+      ),
+    );
+  }
+
+  Widget _buildProductView(Size size, context) {
+    return SizedBox(
+      height: size.height,
+      child: Stack(
+        children: [
+          _buildHeroImage(size),
+          _buildTopBar(size, context),
+          // _buildImageSelector(size),
+          _buildProductDetails(size),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildHeroImage(Size size) {
+    final TransformationController _transformationController =
+        TransformationController();
+    final _dragStartOffset = 0.0.obs;
+
+    return Padding(
+      padding: const EdgeInsets.only(top: 25.0),
+      child: GestureDetector(
+        onVerticalDragStart: (details) {
+          _dragStartOffset.value = details.localPosition.dy;
+        },
+        onVerticalDragUpdate: (details) {
+          if (details.localPosition.dy - _dragStartOffset.value > 100) {
+            Get.back();
+          }
+        },
+        child: InteractiveViewer(
+          transformationController: _transformationController,
+          minScale: 1.0,
+          maxScale: 4.0,
+          child: SizedBox(
+            width: size.width,
+            height: size.height * 0.6,
+            child: AnimatedSwitcher(
+              duration: Duration(milliseconds: 500),
+              transitionBuilder: (Widget child, Animation<double> animation) {
+                return FadeTransition(opacity: animation, child: child);
+              },
+              child: CachedNetworkImage(
+                key: ValueKey<int>(0),
+                imageUrl: widget.productImage,
+                fit: BoxFit.cover,
+                width: size.width,
+                placeholder:
+                    (context, url) => Shimmer.fromColors(
+                      baseColor: Colors.grey[300]!,
+                      highlightColor: Colors.grey[100]!,
+                      child: Container(
+                        width: size.width,
+                        height:
+                            size.height * 0.4, // Adjust the height as needed
+                        color: Colors.white,
+                      ),
+                    ),
+                errorWidget: (context, url, error) => Icon(Icons.error),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildTopBar(Size size, context) {
+    return Positioned(
+      top: size.height * 0.05,
+      left: size.width * 0.015,
+      right: size.width * 0.04,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [_iconButton(Icons.arrow_back_ios, () => Get.back())],
+      ),
+    );
+  }
+
+  Widget _buildImageThumbnail(Size size, int index) {
+    return GestureDetector(
+      onTap: () {},
+      child: Container(
+        margin: EdgeInsets.only(bottom: size.height * 0.01),
+        decoration: BoxDecoration(
+          border: Border.all(
+            color:
+                selectedImageIndex.value == index
+                    ? AppColors.primaryColor
+                    : Colors.transparent,
+            width: 2,
+          ),
+          borderRadius: BorderRadius.circular(10),
+          color: Colors.white,
+        ),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(10),
+          child: CachedNetworkImage(
+            imageUrl: widget.productImage,
+            width: size.width * 0.11,
+            height: size.height * 0.07,
+            fit: BoxFit.cover,
+            placeholder:
+                (context, url) => Shimmer.fromColors(
+                  baseColor: Colors.grey[300]!,
+                  highlightColor: Colors.grey[100]!,
+                  child: Container(
+                    width: size.width * 0.11,
+                    height: size.height * 0.07,
+                    color: Colors.white,
+                  ),
+                ),
+            errorWidget: (context, url, error) => Icon(Icons.error, size: 20),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildProductDetails(Size size) {
+    return DraggableScrollableSheet(
+      initialChildSize: 0.45,
+      minChildSize: 0.45,
+
+      // maxChildSize: 0.95,
+      maxChildSize: 1,
+      builder: (context, scrollController) {
+        return Container(
+          width: size.width,
+          padding: EdgeInsets.all(size.width * 0.04),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey.withOpacity(0.2),
+                spreadRadius: 1,
+                blurRadius: 10,
+                offset: Offset(0, -2),
+              ),
+            ],
+          ),
+          child: SingleChildScrollView(
+            controller: scrollController,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Center(
+                  child: Container(
+                    width: 40,
+                    height: 4,
+                    margin: EdgeInsets.only(bottom: 15),
+                    decoration: BoxDecoration(
+                      color: Colors.grey[300],
+                      borderRadius: BorderRadius.circular(2),
+                    ),
+                  ),
+                ),
+                TweenAnimationBuilder(
+                  tween: Tween<Offset>(
+                    begin: const Offset(0, 1), // Start from bottom
+                    end: const Offset(0, 0), // End at original position
+                  ),
+                  duration: const Duration(milliseconds: 800),
+                  curve: Curves.easeOut,
+                  builder: (context, Offset offset, child) {
+                    return Transform.translate(
+                      offset: offset * 150,
+                      child: AnimatedOpacity(
+                        duration: const Duration(milliseconds: 800),
+                        opacity: 1.0,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            _buildProductTitle(size),
+                            SizedBox(height: size.height * 0.006),
+                            _buildPriceSection(size),
+                            SizedBox(height: size.height * 0.01),
+                            SizedBox(height: size.height * 0.01),
+                            _buildDescriptionSection(size),
+                            SizedBox(height: size.height * 0.015),
+                            SizedBox(height: size.height * 0.02),
+                            _buildAddToCartButton(size, context),
+                            _buildProductSection(size, size.width * 0.06),
+                          ],
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _buildProductSection(Size size, double titleFontSize) {
+    return Container(
+      color: Color(0xFFF7F8FA),
+      child: Column(
+        children: [
+          // _buildSectionHeader('Products', RouteName.viewAllProductsScreen, titleFontSize),
+          SizedBox(height: size.height * 0.015),
+          // _buildProductList(size),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildProductTitle(Size size) {
+    return Text(
+      widget.productName,
+      style: GoogleFonts.poppins(
+        fontSize: size.width * 0.06,
+        fontWeight: FontWeight.w600,
+        color: AppColors.black, // optional color
+        letterSpacing: 1.2,
+      ),
+    );
+  }
+
+  // Widget _buildPriceSection(Size size) {
+  //   return Text(
+  //     "Pkr ${widget.productPrice.toString()}",
+  //     style: TextStyle(
+  //       fontSize: size.width * 0.07,
+  //       fontWeight: FontWeight.bold,
+  //       color: AppColors.black,
+  //     ),
+  //   );
+  // }
+
+  Widget _buildPriceSection(Size size) {
+    return Text(
+      "PKR ${widget.productPrice.toString()}",
+      style: GoogleFonts.montserrat(
+        fontSize: size.width * 0.07,
+        fontWeight: FontWeight.bold,
+        color: AppColors.black,
+        letterSpacing: 1.5, // gives spacing to look premium
+      ),
+    );
+  }
+
+  var isDescriptionExpanded = false.obs;
+
+  Widget _buildDescriptionSection(Size size) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          removeHtmlTags(widget.productDescription),
+          style: GoogleFonts.openSans(
+            fontSize: size.width * 0.04,
+            color: Colors.grey[700], // softer grey for readability
+            height: 1.4, // line height for better spacing
+          ),
+          maxLines: isDescriptionExpanded.value ? null : 3,
+          overflow: TextOverflow.fade,
+        ),
+        SizedBox(height: size.height * 0.01),
+        GestureDetector(
+          onTap: () {
+            setState(() {
+              isDescriptionExpanded.toggle();
+            });
+          },
+          child: Text(
+            isDescriptionExpanded.value ? "Read Less <<" : "Read More >>",
+            style: GoogleFonts.poppins(
+              fontSize: size.width * 0.04,
+              fontWeight: FontWeight.w600,
+              color: AppColors.primaryColor,
+              letterSpacing: 1.1,
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  String removeHtmlTags(String text) {
+    final RegExp exp = RegExp(
+      r'<[^>]*>',
+      multiLine: true,
+      caseSensitive: false,
+    );
+    return text.replaceAll(exp, '');
+  }
+
+  Widget _buildAddToCartButton(Size size, context) {
+    return Center(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          SizedBox(
+            width: size.width * 0.4,
+            height: size.height * 0.064,
+            child: ElevatedButton.icon(
+              onPressed: () {},
+              icon: Icon(Icons.shopping_cart, color: Colors.white),
+              label: Text(
+                "Add to cart",
+                style: GoogleFonts.poppins(
+                  fontSize: size.width * 0.042,
+                  fontWeight: FontWeight.w600,
+                  color: Colors.white,
+                  letterSpacing: 1.2, // makes it look more premium
+                ),
+              ),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: AppColors.primaryColor,
+                padding: EdgeInsets.symmetric(vertical: size.height * 0.02),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+              ),
+            ),
+          ),
+          SizedBox(
+            width: size.width * 0.4,
+            height: size.height * 0.064,
+            child: ElevatedButton.icon(
+              onPressed: () {},
+              icon: Icon(Icons.checkroom, color: Colors.white),
+              label: Text(
+                "Try it Now",
+                style: GoogleFonts.poppins(
+                  fontSize: size.width * 0.042,
+                  fontWeight: FontWeight.w600,
+                  color: Colors.white,
+                  letterSpacing: 1.2, // makes it look more premium
+                ),
+              ),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: AppColors.primaryColor,
+                padding: EdgeInsets.symmetric(vertical: size.height * 0.02),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _iconButton(IconData icon, VoidCallback onTap) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        padding: EdgeInsets.all(8),
+        decoration: BoxDecoration(color: Colors.white, shape: BoxShape.circle),
+        child: Icon(icon, color: Colors.black),
+      ),
+    );
+  }
+}
