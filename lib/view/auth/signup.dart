@@ -4,6 +4,8 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:tryon/component/PrimaryButton.dart';
+import 'package:tryon/constant/app_colors.dart';
+import 'package:tryon/constant/app_images.dart';
 import 'package:tryon/repository/auth_repo/firebase_auth_repository.dart'
     show FirebaseAuthRepository;
 import 'package:tryon/utils/utils.dart';
@@ -45,11 +47,15 @@ class _SignupState extends State<Signup> {
         scrollDirection: Axis.vertical,
         child: Column(
           children: [
-            Align(
-              alignment: Alignment.center,
-              child: Image.asset('assets/Group.png'),
-            ),
-            const SizedBox(height: 82),
+                      SizedBox(
+  height: 200,
+  width: 200,
+  child: Image.asset(
+    AppImages.appIcon,
+    fit: BoxFit.contain,
+  ),
+),
+            // const SizedBox(height: 82),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: Align(
@@ -286,7 +292,7 @@ class _SignupState extends State<Signup> {
                           child: Text(
                             "Login",
                             style: GoogleFonts.poppins(
-                              color: const Color(0xff53B175),
+                              color: AppColors.primaryColor,
                               fontSize: 14,
                               fontWeight: FontWeight.w600,
                             ),

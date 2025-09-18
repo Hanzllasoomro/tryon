@@ -37,7 +37,7 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
         
       ),
-      home:  Navigation(), // Directly load your feature screen
+      home:  Splash1(), // Directly load your feature screen
     );
   
   }

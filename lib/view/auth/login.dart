@@ -63,11 +63,15 @@ class _LoginState extends State<Login> {
         // Makes the body scrollable
         child: Column(
           children: [
-            Align(
-              alignment: Alignment.center,
-              child: Image.asset(AppImages.appIcon),
-            ),
-            SizedBox(height: 82),
+            // Image.asset(AppImages.appIcon,height: 300,width: 300,),
+            SizedBox(
+  height: 200,
+  width: 200,
+  child: Image.asset(
+    AppImages.appIcon,
+    fit: BoxFit.contain,
+  ),
+),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: Align(

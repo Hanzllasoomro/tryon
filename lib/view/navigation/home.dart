@@ -60,13 +60,17 @@ final CartController cartController = Get.put(CartController());
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const SizedBox(height: 40), // Add some spacing at the top
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Image.asset('assets/Group.png', width: 45, height: 45),
-                  ],
-                ),
-                const SizedBox(height: 30),
+                // Image.asset('assets/logo.png', width: 55, height: 55),
+                SizedBox(
+  width: 100,
+  height: 100,
+  child: Image.asset(
+    'assets/Group.png',
+    fit: BoxFit.contain,
+  ),
+),
+
+                // const SizedBox(height: 30),
                 Container(
                   decoration: BoxDecoration(
                     color: const Color(0xffF2F3F2),

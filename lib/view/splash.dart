@@ -111,46 +111,31 @@ class _Splash1State extends State<Splash1> with SingleTickerProviderStateMixin {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       // App logo with decorative container
-                      Container(
-                        padding: const EdgeInsets.all(20),
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          shape: BoxShape.circle,
-                          boxShadow: [
-                            BoxShadow(
-                              color: AppColors.grey.withOpacity(0.2),
-                              blurRadius: 15,
-                              spreadRadius: 2,
-                              offset: const Offset(0, 5),
-                            ),
-                          ],
-                        ),
-                        child: Image.asset(AppImages.appIcon),
-                      ),
+                      Image.asset(AppImages.appIcon,height: 300,width: 300,),
 
-                      const SizedBox(height: 30),
+                      // const SizedBox(height: 30),
 
                       // App name with stylish text
-                      ShaderMask(
-                        blendMode: BlendMode.srcIn,
-                        shaderCallback:
-                            (bounds) => const LinearGradient(
-                              colors: [
-                                AppColors.primaryColor,
-                                AppColors.primaryColor,
-                              ],
-                            ).createShader(bounds),
-                        child: const Text(
-                          "TryNBuy", // Replace with your app name
-                          style: TextStyle(
-                            fontSize: 32,
-                            fontWeight: FontWeight.bold,
-                            letterSpacing: 1.5,
-                          ),
-                        ),
-                      ),
+                      // ShaderMask(
+                      //   blendMode: BlendMode.srcIn,
+                      //   shaderCallback:
+                      //       (bounds) => const LinearGradient(
+                      //         colors: [
+                      //           AppColors.primaryColor,
+                      //           AppColors.primaryColor,
+                      //         ],
+                      //       ).createShader(bounds),
+                      //   child: const Text(
+                      //     "TryNBuy", // Replace with your app name
+                      //     style: TextStyle(
+                      //       fontSize: 32,
+                      //       fontWeight: FontWeight.bold,
+                      //       letterSpacing: 1.5,
+                      //     ),
+                      //   ),
+                      // ),
 
-                      const SizedBox(height: 10),
+                      // const SizedBox(height: 10),
 
                       // Tagline
                       Text(
@@ -177,7 +162,7 @@ class _Splash1State extends State<Splash1> with SingleTickerProviderStateMixin {
                   SizedBox(
                     width: 40,
                     height: 40,
-                    child: CircularProgressIndicator(
+                    child: CircularProgressIndicator.adaptive(
                       valueColor: AlwaysStoppedAnimation<Color>(
                         AppColors.primaryColor,
                       ),
