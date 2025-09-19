@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart' show Get;
 import 'package:google_fonts/google_fonts.dart';
 import 'package:tryon/component/HomeScreenShimmer.dart';
+import 'package:tryon/component/TryOnButton.dart';
+import 'package:tryon/component/glasses_card.dart';
 import 'package:tryon/constant/app_colors.dart';
+import 'package:tryon/constant/glasses_list.dart';
 import 'package:tryon/model/products.dart';
 import 'package:tryon/view/product/product_details.dart';
 import 'package:tryon/view_model/CartController.dart';
@@ -17,6 +21,7 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+
   void addToCart(String name, double price, String imagePath) {
     setState(() {
     });
@@ -168,7 +173,66 @@ final CartController cartController = Get.put(CartController());
                         }).toList(),
                   ),
                 ),
-                const SizedBox(height: 20),
+                const SizedBox(height: 30),
+                    Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      "Eye Wears",
+                      style: GoogleFonts.poppins(
+                        fontSize: 24,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    TextButton(
+                      onPressed: () {},
+                      child: const Text(
+                        "See all",
+                        style: TextStyle(
+                          color: AppColors.primaryColor,
+                          decoration: TextDecoration.underline,
+                          decorationColor: Color(0xff53B175),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                 SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
+                    children:
+                      glasses.map((product) {
+                          return Padding(
+                            padding: const EdgeInsets.only(right: 20),
+                            child: InkWell(
+                              child:GlassesCard(
+                                imageUrl: product['image']!,
+                                name: product['name']!,
+                                price: product['price']!,
+                                weight: '',
+                                priceValue: 0,
+                              ),
+                              onTap:
+                                  () => Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) {
+                                        return ProductDetailsScreen(
+                                          productName: product['name']!,
+                                          productPrice:  double.parse(product['price']!),
+                                          productDescription: product['description']!,
+                                          productImage:  product['image']!,
+                                          productRating: 2,
+                                        );
+                                      },
+                                    ),
+                                  ),
+                            ),
+                          );
+                        }).toList(),
+                  ),
+                ),
+
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [

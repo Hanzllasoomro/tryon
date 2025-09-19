@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:tryon/constant/app_colors.dart';
 import 'package:tryon/model/CartItem.dart';
 
 class CartController extends GetxController {
@@ -11,7 +12,7 @@ class CartController extends GetxController {
     if (index >= 0) {
       cartItems[index].quantity += 1;
     } else {
-      cartItems.add(CartItem(name: name, price: price, imagePath: imagePath));
+      cartItems.add(CartItem(name: name, price: price, image: imagePath,quantity: 1,color:""));
     }
   }
 

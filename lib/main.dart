@@ -6,8 +6,6 @@ import 'package:tryon/repository/auth_repo/auth_repository.dart';
 import 'package:tryon/repository/auth_repo/firebase_auth_repository.dart';
 import 'package:tryon/repository/product_repo/firebase_product_repo_impl.dart';
 import 'package:tryon/repository/product_repo/product_repo.dart';
-import 'package:tryon/view/cart/CartScreen.dart';
-import 'package:tryon/view/navigation/navigation.dart';
 import 'package:tryon/view/splash.dart';
 // import 'package:tryon/firebase_options.dart';
 

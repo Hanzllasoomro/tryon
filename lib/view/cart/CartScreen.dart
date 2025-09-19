@@ -1,48 +1,4 @@
-// import 'package:flutter/material.dart';
-// import 'package:get/get.dart';
-// import 'package:get/get_core/src/get_main.dart';
-// import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
-// import 'package:tryon/view_model/CartController.dart' show CartController;
 
-// class CartScreen extends StatelessWidget {
-//   final CartController cartController = Get.put(CartController());
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(title: const Text("My Cart")),
-//       body: Obx(() {
-//         if (cartController.cartItems.isEmpty) {
-//           return const Center(child: Text("Your cart is empty"));
-//         }
-
-//         return ListView.builder(
-//           itemCount: cartController.cartItems.length,
-//           itemBuilder: (context, index) {
-//             final item = cartController.cartItems[index];
-//             return ListTile(
-//               leading: Image.network(item.imagePath, width: 50, height: 50),
-//               title: Text(item.name),
-//               subtitle: Text("x${item.quantity} • \$${item.price}"),
-//               trailing: IconButton(
-//                 icon: const Icon(Icons.remove_circle, color: Colors.red),
-//                 onPressed: () => cartController.removeFromCart(item),
-//               ),
-//             );
-//           },
-//         );
-//       }),
-//       bottomNavigationBar: Obx(() => Container(
-//             padding: const EdgeInsets.all(16),
-//             child: Text(
-//               "Total: \$${cartController.totalPrice.toStringAsFixed(2)}",
-//               style: const TextStyle(
-//                   fontSize: 20, fontWeight: FontWeight.bold),
-//             ),
-//           )),
-//     );
-//   }
-// }
 
 
 import 'package:cached_network_image/cached_network_image.dart';
@@ -53,6 +9,8 @@ import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:tryon/constant/app_colors.dart';
 import 'package:tryon/model/CartItem.dart';
+import 'package:tryon/view/ShoppingCartScreen.dart';
+import 'package:tryon/view/navigation/navigation.dart';
 import 'package:tryon/view_model/CartController.dart' show CartController;
 
 class CartScreen extends StatelessWidget {
@@ -74,10 +32,7 @@ class CartScreen extends StatelessWidget {
           ),
         ),
         centerTitle: true,
-        // leading: IconButton(
-        //   icon: const Icon(Icons.arrow_back, color: AppColors.black),
-        //   onPressed: () => Navigator.of(context).pop(),
-        // ),
+        
         actions: [
           IconButton(
             icon: const Icon(Icons.delete_outline, color: AppColors.black),
@@ -91,7 +46,7 @@ class CartScreen extends StatelessWidget {
                   confirmTextColor: Colors.white,
                   onConfirm: () {
                     cartController.clearCart();
-                    Get.back();
+                    Get.to(Navigation());
                   },
                 );
               }
@@ -226,7 +181,7 @@ class CartScreen extends StatelessWidget {
                 bottomLeft: Radius.circular(16),
               ),
               child: CachedNetworkImage(
-  imageUrl: item.imagePath,
+  imageUrl:item.image,
   width: 100,
   height: 100,
   fit: BoxFit.cover,
@@ -289,6 +244,7 @@ class CartScreen extends StatelessWidget {
                             borderRadius: BorderRadius.circular(6),
                           ),
                           child: Text(
+                            
                             item.quantity.toString(),
                             style: const TextStyle(fontSize: 16),
                           ),
@@ -380,6 +336,9 @@ class CartScreen extends StatelessWidget {
             child: ElevatedButton(
               onPressed: () {
                 // Proceed to checkout
+                Navigator.push(context,MaterialPageRoute(builder: (context){
+                  return ShoppingCartScreen();
+                }));
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: AppColors.primaryColor,

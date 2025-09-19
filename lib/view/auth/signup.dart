@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:tryon/component/PrimaryButton.dart';
@@ -8,7 +7,6 @@ import 'package:tryon/constant/app_colors.dart';
 import 'package:tryon/constant/app_images.dart';
 import 'package:tryon/repository/auth_repo/firebase_auth_repository.dart'
     show FirebaseAuthRepository;
-import 'package:tryon/utils/utils.dart';
 import 'package:tryon/view/auth/login.dart';
 import 'package:tryon/view_model/AuthController.dart';
 
