@@ -6,6 +6,9 @@ import 'package:tryon/repository/auth_repo/auth_repository.dart';
 import 'package:tryon/repository/auth_repo/firebase_auth_repository.dart';
 import 'package:tryon/repository/product_repo/firebase_product_repo_impl.dart';
 import 'package:tryon/repository/product_repo/product_repo.dart';
+import 'package:tryon/view/admin_panel/order.dart';
+import 'package:tryon/view/navigation/navigation.dart';
+import 'package:tryon/view/product/UploadProductScreen.dart';
 import 'package:tryon/view/splash.dart';
 // import 'package:tryon/firebase_options.dart';
 
@@ -35,7 +38,7 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
         
       ),
-      home:  Splash1(), // Directly load your feature screen
+      home:  UploadProductScreen(), // Directly load your feature screen
     );
   
   }

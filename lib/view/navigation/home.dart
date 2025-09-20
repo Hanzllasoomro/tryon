@@ -158,6 +158,7 @@ final CartController cartController = Get.put(CartController());
                                     MaterialPageRoute(
                                       builder: (context) {
                                         return ProductDetailsScreen(
+                                          productId: "",
                                           productName: product.name,
                                           productPrice: product.price,
                                           productDescription:
@@ -218,6 +219,7 @@ final CartController cartController = Get.put(CartController());
                                     MaterialPageRoute(
                                       builder: (context) {
                                         return ProductDetailsScreen(
+                                          productId: '',
                                           productName: product['name']!,
                                           productPrice:  double.parse(product['price']!),
                                           productDescription: product['description']!,

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tryon/constant/app_colors.dart';
+import 'package:tryon/view/FavoritesScreen.dart';
 import 'package:tryon/view/product/FavoritesScreen.dart';
 import 'package:tryon/view/ProfileScreen.dart';
 import 'package:tryon/view/cart/CartScreen.dart';
