@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -10,6 +12,7 @@ import 'package:tryon/repository/auth_repo/firebase_auth_repository.dart';
 import 'package:tryon/utils/utils.dart';
 import 'package:tryon/view/auth/forget.dart';
 import 'package:tryon/view/auth/signup.dart';
+import 'package:tryon/view/navigation/admin_navigation.dart';
 import 'package:tryon/view/navigation/navigation.dart';
 import 'package:tryon/view_model/AuthController.dart';
 
@@ -36,23 +39,57 @@ class _LoginState extends State<Login> {
     passwordcontroller.dispose();
   }
 
-  void login() {
-    _auth
-        .signInWithEmailAndPassword(
-          email: emailcontroller.text.toString(),
-          password: passwordcontroller.text.toString(),
-        )
-        .then((value) {
-          Utils().toastmessage(value.user!.email.toString());
+  // void login() {
+  //   _auth
+  //       .signInWithEmailAndPassword(
+  //         email: emailcontroller.text.toString(),
+  //         password: passwordcontroller.text.toString(),
+  //       )
+  //       .then((value) {
+  //         Utils().toastmessage(value.user!.email.toString());
+  //         Navigator.push(
+  //           context,
+  //           MaterialPageRoute(builder: (context) => Navigation()),
+  //         );
+  //       })
+  //       .onError((error, stackTrace) {
+  //         Utils().toastmessage(error.toString());
+  //       });
+  // }
+    void login() {
+
+      log(emailcontroller.text.trim());
+      log(passwordcontroller.text.trim());
+ _auth
+      .signInWithEmailAndPassword(
+        email: emailcontroller.text.trim(),
+        password: passwordcontroller.text.trim(),
+      )
+      .then((value) {
+        final userEmail = value.user!.email.toString();
+
+
+log(userEmail);
+        if (userEmail == "admin@gmail.com") {
+          // ✅ Admin login
+          log("in if");
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => AdminNavigation()),
+          );  
+        } else {
+                 log("in else");
+          // ✅ Normal user login
           Navigator.push(
             context,
             MaterialPageRoute(builder: (context) => Navigation()),
           );
-        })
-        .onError((error, stackTrace) {
-          Utils().toastmessage(error.toString());
-        });
-  }
+        }
+      })
+      .onError((error, stackTrace) {
+        Utils().toastmessage(error.toString());
+      });
+}
 
   @override
   Widget build(BuildContext context) {
