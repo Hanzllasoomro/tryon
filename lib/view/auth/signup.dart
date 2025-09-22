@@ -46,8 +46,8 @@ class _SignupState extends State<Signup> {
         child: Column(
           children: [
                       SizedBox(
-  height: 200,
-  width: 200,
+  height: 180,
+  width: 180,
   child: Image.asset(
     AppImages.appIcon,
     fit: BoxFit.contain,

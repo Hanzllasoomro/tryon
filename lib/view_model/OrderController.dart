@@ -1,5 +1,6 @@
 
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -11,6 +12,7 @@ import 'package:tryon/view_model/CartController.dart';
 class OrderController extends GetxController {
   final OrderRepository _repository = OrderRepository();
   final CartController _cartController =Get.put(CartController());
+  var orders = <OrderModel>[].obs;
 
 final RxList<OrderModel> allOrders = <OrderModel>[].obs;
   final RxBool isLoading = false.obs;
@@ -68,7 +70,26 @@ final RxList<OrderModel> allOrders = <OrderModel>[].obs;
       isLoading.value = false;
     }
   }
+  /// ✅ Fetch all orders for a specific user
+  Future<void> fetchOrders(String userId) async {
+    try {
+      isLoading.value = true;
 
+      final snapshot = await FirebaseFirestore.instance
+          .collection("orders")
+          .where("userId", isEqualTo: userId)
+          .orderBy("orderDate", descending: true)
+          .get();
+
+      orders.value = snapshot.docs
+          .map((doc) => OrderModel.fromMap(doc.id, doc.data()))
+          .toList();
+    } catch (e) {
+      Get.snackbar("Error", e.toString());
+    } finally {
+      isLoading.value = false;
+    }
+  }
   // Fetch user's orders
   Future<void> fetchUserOrders() async {
     try {

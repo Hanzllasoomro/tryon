@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:get/get.dart';
 import 'package:tryon/constant/app_images.dart';
 import 'package:tryon/model/UserModel.dart';
@@ -51,8 +53,14 @@ class AuthController extends GetxController {
         // fetch user info from Firestore later if needed
         final user = UserModel(uid: uid, name: "", email: email);
         userController.setUser(user);
+        log(user.email);
+        if (user.email=="admin@gmail.com") {
+log("in if");
 Get.to(AdminNavigation());
-        // Get.snackbar("Success", "Logged in successfully");
+        }else{
+log("in else");
+Get.to(Navigation());
+        }
       }
     } catch (e) {
       Get.snackbar("Error", e.toString());

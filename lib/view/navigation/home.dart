@@ -67,10 +67,10 @@ final CartController cartController = Get.put(CartController());
                 const SizedBox(height: 40), // Add some spacing at the top
                 // Image.asset('assets/logo.png', width: 55, height: 55),
                 SizedBox(
-  width: 100,
-  height: 100,
+  width: 70,
+  height: 70,
   child: Image.asset(
-    'assets/Group.png',
+    'assets/Group_icon.png',
     fit: BoxFit.contain,
   ),
 ),
@@ -174,66 +174,66 @@ final CartController cartController = Get.put(CartController());
                         }).toList(),
                   ),
                 ),
-                const SizedBox(height: 30),
-                    Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      "Eye Wears",
-                      style: GoogleFonts.poppins(
-                        fontSize: 24,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                    TextButton(
-                      onPressed: () {},
-                      child: const Text(
-                        "See all",
-                        style: TextStyle(
-                          color: AppColors.primaryColor,
-                          decoration: TextDecoration.underline,
-                          decorationColor: Color(0xff53B175),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                 SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Row(
-                    children:
-                      glasses.map((product) {
-                          return Padding(
-                            padding: const EdgeInsets.only(right: 20),
-                            child: InkWell(
-                              child:GlassesCard(
-                                imageUrl: product['image']!,
-                                name: product['name']!,
-                                price: product['price']!,
-                                weight: '',
-                                priceValue: 0,
-                              ),
-                              onTap:
-                                  () => Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) {
-                                        return ProductDetailsScreen(
-                                          productId: '',
-                                          productName: product['name']!,
-                                          productPrice:  double.parse(product['price']!),
-                                          productDescription: product['description']!,
-                                          productImage:  product['image']!,
-                                          productRating: 2,
-                                        );
-                                      },
-                                    ),
-                                  ),
-                            ),
-                          );
-                        }).toList(),
-                  ),
-                ),
+                // const SizedBox(height: 30),
+                //     Row(
+                //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                //   children: [
+                //     Text(
+                //       "Eye Wears",
+                //       style: GoogleFonts.poppins(
+                //         fontSize: 24,
+                //         fontWeight: FontWeight.w600,
+                //       ),
+                //     ),
+                //     TextButton(
+                //       onPressed: () {},
+                //       child: const Text(
+                //         "See all",
+                //         style: TextStyle(
+                //           color: AppColors.primaryColor,
+                //           decoration: TextDecoration.underline,
+                //           decorationColor: Color(0xff53B175),
+                //         ),
+                //       ),
+                //     ),
+                //   ],
+                // ),
+                //  SingleChildScrollView(
+                //   scrollDirection: Axis.horizontal,
+                //   child: Row(
+                //     children:
+                //       glasses.map((product) {
+                //           return Padding(
+                //             padding: const EdgeInsets.only(right: 20),
+                //             child: InkWell(
+                //               child:GlassesCard(
+                //                 imageUrl: product['image']!,
+                //                 name: product['name']!,
+                //                 price: product['price']!,
+                //                 weight: '',
+                //                 priceValue: 0,
+                //               ),
+                //               onTap:
+                //                   () => Navigator.push(
+                //                     context,
+                //                     MaterialPageRoute(
+                //                       builder: (context) {
+                //                         return ProductDetailsScreen(
+                //                           productId: '',
+                //                           productName: product['name']!,
+                //                           productPrice:  double.parse(product['price']!),
+                //                           productDescription: product['description']!,
+                //                           productImage:  product['image']!,
+                //                           productRating: 2,
+                //                         );
+                //                       },
+                //                     ),
+                //                   ),
+                //             ),
+                //           );
+                //         }).toList(),
+                //   ),
+                // ),
 
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,

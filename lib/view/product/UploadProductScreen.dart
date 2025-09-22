@@ -1483,7 +1483,7 @@ Future<void> _getImage() async {
                             hint: 'Enter price',
                             controller: _priceController,
                             focusNode: _priceFocus,
-                            icon: Icons.attach_money,
+                            icon: Icons.price_change,
                             keyboardType: TextInputType.numberWithOptions(decimal: true),
                             validator: (value) {
                               if (value == null || value.isEmpty) {

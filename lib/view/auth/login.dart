@@ -56,40 +56,40 @@ class _LoginState extends State<Login> {
   //         Utils().toastmessage(error.toString());
   //       });
   // }
-    void login() {
+//     void login() {
 
-      log(emailcontroller.text.trim());
-      log(passwordcontroller.text.trim());
- _auth
-      .signInWithEmailAndPassword(
-        email: emailcontroller.text.trim(),
-        password: passwordcontroller.text.trim(),
-      )
-      .then((value) {
-        final userEmail = value.user!.email.toString();
+//       log(emailcontroller.text.trim());
+//       log(passwordcontroller.text.trim());
+//  _auth
+//       .signInWithEmailAndPassword(
+//         email: emailcontroller.text.trim(),
+//         password: passwordcontroller.text.trim(),
+//       )
+//       .then((value) {
+//         final userEmail = value.user!.email.toString();
 
 
-log(userEmail);
-        if (userEmail == "admin@gmail.com") {
-          // ✅ Admin login
-          log("in if");
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => AdminNavigation()),
-          );  
-        } else {
-                 log("in else");
-          // ✅ Normal user login
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => Navigation()),
-          );
-        }
-      })
-      .onError((error, stackTrace) {
-        Utils().toastmessage(error.toString());
-      });
-}
+// log(userEmail);
+//         if (userEmail == "admin@gmail.com") {
+//           // ✅ Admin login
+//           log("in if");
+//           Navigator.push(
+//             context,
+//             MaterialPageRoute(builder: (context) => AdminNavigation()),
+//           );  
+//         } else {
+//                  log("in else");
+//           // ✅ Normal user login
+//           Navigator.push(
+//             context,
+//             MaterialPageRoute(builder: (context) => Navigation()),
+//           );
+//         }
+//       })
+//       .onError((error, stackTrace) {
+//         Utils().toastmessage(error.toString());
+//       });
+// }
 
   @override
   Widget build(BuildContext context) {
@@ -102,8 +102,8 @@ log(userEmail);
           children: [
             // Image.asset(AppImages.appIcon,height: 300,width: 300,),
             SizedBox(
-  height: 200,
-  width: 200,
+  height: 180,
+  width: 180,
   child: Image.asset(
     AppImages.appIcon,
     fit: BoxFit.contain,
@@ -266,6 +266,9 @@ log(userEmail);
                     ),
 
                     SizedBox(height: 10),
+                  //  comment only for admin
+
+
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [

@@ -2,6 +2,8 @@
 // Assuming the CartItem model looks like this (based on usage in the code):
 // File: lib/model/CartItem.dart
 
+import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
 import 'package:tryon/model/order_model.dart';
@@ -32,6 +34,7 @@ class OrderRepository {
         return OrderModel.fromMap(doc.id, doc.data());
       }).toList();
     } catch (e) {
+      log(e.toString());
       throw Exception('Failed to fetch orders: $e');
     }
   }

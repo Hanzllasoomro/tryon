@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:tryon/constant/app_colors.dart';
 import 'package:tryon/constant/app_images.dart';
 import 'package:tryon/view/auth/login.dart';
+import 'package:tryon/view/navigation/admin_navigation.dart';
 import 'package:tryon/view/navigation/navigation.dart';
 
 class Splash1 extends StatefulWidget {
@@ -47,10 +48,17 @@ class _Splash1State extends State<Splash1> with SingleTickerProviderStateMixin {
 
     if (user != null) {
       // User is logged in -> navigate to Dashboard
-      Navigator.pushReplacement(
+  if (user.email=="admin@gmail.com") {
+        Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => AdminNavigation()),
+      );
+  } else {
+        Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => Navigation()),
       );
+  }
     } else {
       // User not logged in -> navigate to Login
       Navigator.pushReplacement(
@@ -111,7 +119,7 @@ class _Splash1State extends State<Splash1> with SingleTickerProviderStateMixin {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       // App logo with decorative container
-                      Image.asset(AppImages.appIcon,height: 300,width: 300,),
+                      Image.asset(AppImages.appIcon,height: 250,width: 250,),
 
                       // const SizedBox(height: 30),
 

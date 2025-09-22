@@ -1634,7 +1634,7 @@ class _ShoppingCartScreenState extends State<ShoppingCartScreen>
                                   valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
                                 ),
                               )
-                            : const Icon(Icons.shop),
+                            : const Icon(Icons.shopping_bag),
                         label: Text(orderController.isLoading.value 
                             ? 'Placing Order...' 
                             : 'Confirm Order'),

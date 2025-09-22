@@ -6,7 +6,7 @@ class AppImages {
   static String groupProfile = "assets/png/group_image.png";
 
   
-  static String appIcon = "assets/Group.png";
+  static String appIcon = "assets/Group_icon.png";
 
   
   static String email = "assets/png/email.svg";
